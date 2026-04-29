@@ -4,7 +4,7 @@ import random
 import tkinter as tk
 
 total_student = ["唐健程", "陈瑞格", "陈首名", "赵佳硕", "范志超", "王鹏茹", "杨冰", "卜炫安",
-                 "袁希博", "张悦", "张烨铭", "朱继松", "史天琦", "程凯驰", "曹偲琪", "张莹", "赵浩言", "郑阳阳",
+                 "袁希博", "张悦", "张烨铭", "朱继松", "史天琦", "曹偲琪", "张莹", "赵浩言", "郑阳阳",
                  "陈紫西",
                  "李博奥", "姜宇轩", "孙佳琪", "寇栖源", "王嘉蔚", "谭奕萌", "周若雪", "林思琪",
                  "白梦涵", "魏宇佳", "王一涵", "唐静然",
@@ -39,7 +39,7 @@ def main():
     output.configure(text=f"批卷人员为: {resout}")
     output.place(x=100, y=30)
     goal_list.clear()
-    total_list += goal_list
+    total_student += goal_list
     resout = ""
     return goal_list
 
