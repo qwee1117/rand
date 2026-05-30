@@ -30,9 +30,9 @@ def main():
         a = random.randint(0, c)
         goal_list.append(total_student[a])
         total_student.remove(total_student[a])
-    if random.randint(0, 100) <= 20:
+    if random.randint(0, 100) <= 30:
         goal_list[random.randint(0, len(goal_list) - 1)] = total_student[-1]
-    if random.randint(0, 100) <= 20:
+    if random.randint(0, 100) <= 30:
         goal_list[random.randint(0, len(goal_list) - 1)] = total_student[-2]
     for i in range(len(goal_list)):
         resout += str(goal_list[i])
