@@ -1,60 +1,89 @@
-"""抽取学生实现"""
-#############################初始化#############################
-import random
 import tkinter as tk
+from json import loads, dumps
 
-total_student = ["唐健程", "陈瑞格", "陈首名", "赵佳硕", "范志超", "王鹏茹", "杨冰", "卜炫安",
-                 "袁希博", "张悦", "张烨铭", "朱继松", "史天琦", "曹偲琪", "张莹", "赵浩言", "郑阳阳",
-                 "陈紫西",
-                 "李博奥", "姜宇轩", "孙佳琪", "寇栖源", "王嘉蔚", "谭奕萌", "周若雪", "林思琪",
-                 "白梦涵", "魏宇佳", "王一涵", "唐静然",
-                 "孟江楠", "李雪坤", "曹悦然", "曾祥钊", "杨迪", "张传业", "李政霖", "侯佳诚",
-                 "郭展赫", "高越", "陈尚言"]
-root = tk.Tk()
-root.title("小考批卷人员抽取")
-root.geometry("1400x400")
-root.resizable(True, True)
-zx = "赵轩"
-goal_list = []
-output = tk.Label(root, text=f"批卷人员为: {goal_list}", font=("Aril", 30))
-resout = ""
-
-
-def main():
-    """定义主函数"""
-    global goal_list
-    global total_student
-    global output
-    global resout
-    for i in range(5):
-        c = len(total_student) - 1
-        a = random.randint(0, c)
-        goal_list.append(total_student[a])
-        total_student.remove(total_student[a])
-    if random.randint(0,100) <=12:
-        goal_list[random.randint(0,len(goal_list)-1)] = zx
-    for i in range(len(goal_list)):
-        resout += str(goal_list[i])
-        resout += " "
-        if i != len(goal_list) - 1:
-            resout += ","
-    output.configure(text=f"批卷人员为: {resout}")
-    output.place(x=100, y=30)
-    goal_list.clear()
-    total_student = ["唐健程", "陈瑞格", "陈首名", "赵佳硕", "范志超", "王鹏茹", "杨冰", "卜炫安",
-                     "袁希博", "张悦", "张烨铭", "朱继松", "史天琦", "曹偲琪", "张莹", "赵浩言", "郑阳阳",
-                     "陈紫西",
-                     "李博奥", "姜宇轩", "孙佳琪", "寇栖源", "王嘉蔚", "谭奕萌", "周若雪", "林思琪",
-                     "白梦涵", "魏宇佳", "王一涵", "唐静然",
-                     "孟江楠", "李雪坤", "曹悦然", "曾祥钊", "杨迪", "张传业", "李政霖", "侯佳诚", "高越",
-                     "陈尚言"]
-    resout = ""
-    return goal_list
+configing = tk.Tk()
+configing.title("设置")
+configing.resizable(width=False, height=False)
+configing.geometry("400x400")
+origin_list = ["董子墨", "陈首名", "李汪恩熙", "范志超", "王鹏茹", "杨冰", "卜炫安",
+               "袁希博", "张悦", "张烨铭", "朱继松", "史天琦", "曹偲琪", "张莹", "张子安", "郑阳阳",
+               "陈紫西",
+               "李博奥", "姜宇轩", "孙佳琪", "寇栖源", "王嘉蔚", "谭奕萌", "周若雪", "林思琪",
+               "白梦涵", "魏宇佳", "王一涵", "唐静然",
+               "孟江楠", "李雪坤", "曹悦然", "曾祥钊", "杨迪", "张传业", "李政霖", "侯佳诚",
+               "郭展赫", "陈尚言", "赵轩", "唐健程", "高越"]
+with open('data.json', encoding='utf-8') as f:
+    temp = loads(f.read())
+    temp1 = temp['stu']
+    temp2 = temp['num']
 
 
-start = tk.Button(root, text="抽取")
-start.bind("<Button-1>", lambda e: main())
-start.place(x=100, y=100)
+def insert_student(new_student):
+    global temp1
+    global temp
+    f = open('data.json', 'w', encoding='utf-8')
+    temp['stu'].append(new_student)
+    f.write(dumps(temp))
+    f.close()
 
-root.mainloop()
 
+def delete_student(goal):
+    global temp1
+    global temp
+    f = open('data.json', 'w', encoding='utf-8')
+    temp1.remove(goal)
+    temp['stu'] = temp1
+    f.write(dumps(temp))
+    f.close()
+
+
+def change_len(goal):
+    global temp2
+    f = open('data.json', 'w', encoding='utf-8')
+    temp['num'] = int(goal)
+    f.write(dumps(temp))
+    f.close()
+
+
+def check():
+    f = open('data.json', encoding='utf-8')
+    print(loads(f.read()))
+    f.close()
+
+
+def reset():
+    f = open('data.json', 'w', encoding='utf-8')
+    qi = {'stu': origin_list, 'num': 0}
+    f.write(dumps(qi))
+    f.close()
+
+
+p1_1 = tk.StringVar()
+p1 = tk.Spinbox(configing, textvariable=p1_1)
+p1.place(x=100, y=100)
+d1_1 = tk.Button(configing, text="添加", command=lambda: insert_student(p1_1.get()))
+d1_1.place(x=260, y=100)
+l1_1 = tk.Label(configing, text="添加学生")
+l1_1.place(x=100, y=70)
+p1_2 = tk.StringVar()
+p2 = tk.Spinbox(configing, textvariable=p1_2)
+p2.place(x=100, y=150)
+d1_2 = tk.Button(configing, text="删除", command=lambda: delete_student(p1_2.get()))
+d1_2.place(x=260, y=150)
+l2_1 = tk.Label(configing, text="删除学生")
+l2_1.place(x=100, y=125)
+p2_1 = tk.IntVar()
+p2 = tk.Spinbox(configing, textvariable=p2_1)
+p2.place(x=100, y=200)
+d2_1 = tk.Button(configing, text="变更", command=lambda: change_len(p2_1.get()))
+d2_1.place(x=260, y=200)
+l3_1 = tk.Label(configing, text="抽取人数")
+l3_1.place(x=100, y=175)
+d3_1 = tk.Button(configing, text="查看现有学生（将在控制台输出）", command=lambda: check())
+d3_1.place(x=100, y=260)
+d3_2 = tk.Button(configing, text="重置为初始值", command=lambda: reset())
+d3_2.place(x=150, y=230)
+ed = tk.Button(configing, text="确认", command=lambda: configing.destroy())
+ed.place(x=150, y=320)
+
+configing.mainloop()
