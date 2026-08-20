@@ -2,17 +2,20 @@
 #############################初始化#############################
 import random
 import tkinter as tk
+from json import loads, dumps
+import os
+import sys
 
-total_student = ["陈瑞格", "陈首名", "赵佳硕", "范志超", "王鹏茹", "杨冰", "卜炫安",
-                 "袁希博", "张悦", "张烨铭", "朱继松", "史天琦", "曹偲琪", "张莹", "赵浩言", "郑阳阳",
-                 "陈紫西",
-                 "李博奥", "姜宇轩", "孙佳琪", "寇栖源", "王嘉蔚", "谭奕萌", "周若雪", "林思琪",
-                 "白梦涵", "魏宇佳", "王一涵", "唐静然",
-                 "孟江楠", "李雪坤", "曹悦然", "曾祥钊", "杨迪", "张传业", "李政霖", "侯佳诚",
-                 "郭展赫", "陈尚言", "赵轩", "唐健程", "高越"]
+
+def resource_path(relative_path):
+    """寻找路径"""
+    base_path = os.path.abspath(".")
+    return os.path.join(base_path, relative_path)
+
+
 root = tk.Tk()
 root.title("小考批卷人员抽取")
-root.geometry("1400x400")
+root.geometry("1600x400")
 root.resizable(True, True)
 goal_list = []
 output = tk.Label(root, text=f"批卷人员为: {goal_list}", font=("Aril", 30))
@@ -22,18 +25,17 @@ resout = ""
 def main():
     """定义主函数"""
     global goal_list
-    global total_student
     global output
     global resout
-    for i in range(6):
+    f = open('data.json', encoding='utf-8')
+    a = loads(f.read())
+    total_student = a['stu']
+    much = a['num']
+    for i in range(much):
         c = len(total_student) - 2
         a = random.randint(0, c)
         goal_list.append(total_student[a])
         total_student.remove(total_student[a])
-    if random.randint(0, 100) <= 30:
-        goal_list[random.randint(0, len(goal_list) - 1)] = total_student[-1]
-    if random.randint(0, 100) <= 30:
-        goal_list[random.randint(0, len(goal_list) - 1)] = total_student[-2]
     for i in range(len(goal_list)):
         resout += str(goal_list[i])
         resout += " "
@@ -47,8 +49,17 @@ def main():
     return goal_list
 
 
+def cal():
+    import os
+    path = resource_path("backup.exe")
+    os.system(path)
+
+
 start = tk.Button(root, text="抽取")
 start.bind("<Button-1>", lambda e: main())
 start.place(x=100, y=100)
+conf = tk.Button(root, text="设置")
+conf.bind("<Button-1>", lambda e: cal())
+conf.place(x=100, y=150)
 
 root.mainloop()
